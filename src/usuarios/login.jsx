@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 // Muestra el formulario para iniciar sesión o crear una cuenta.
 export default function LoginForm({ onLogin }) {
-  const [modo, setModo] = useState('login'); // 'login' o 'registro'
+  const [modo, setModo] = useState('login'); // 'login' o 'registro'.
   const [nombre, setNombre] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

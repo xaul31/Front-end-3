@@ -27,7 +27,7 @@ export default function CalculadoraIMC() {
     const categoria = obtenerCategoria(imc);
     setResultado({ imc, ...DIETAS[categoria] });
 
-    // Pedimos la recomendación personalizada a la IA
+    // Pedimos la recomendación personalizada a la IA.
     setRecomendacionIA(null);
     setCargandoIA(true);
 

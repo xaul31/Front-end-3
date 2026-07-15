@@ -9,7 +9,7 @@ export default function App() {
   const [vista, setVista] = useState('calculadora');
   const [usuario, setUsuario] = useState(null);
 
-  // Guarda los datos del usuario cuando inicia sesión o se registra.
+  // Guarda los datos del usuario cuando inicia sesión o se registra
   function manejoLogin(datosUsuario) {
     setUsuario(datosUsuario);
   }

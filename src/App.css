@@ -203,7 +203,7 @@
   right: 0;
   border-right-color: var(--border);
 }
-
+/* Estilos para la imagen del logo de la aplicación */
 .app-logo {
   width: clamp(92px, 13vw, 140px);
   height: auto;

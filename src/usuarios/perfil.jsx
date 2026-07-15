@@ -59,7 +59,7 @@ function VerPerfil({ usuario }) {
     );
 }
 
-// Muestra la rutina de ejercicios correspondiente a la última categoría de IMC.
+// Muestra la rutina de ejercicios correspondiente a la última categoría de IMC
 function VerEjercicios() {
     const guardado = localStorage.getItem('recomendacionIA');
     const recomendacion = guardado ? JSON.parse(guardado) : null;

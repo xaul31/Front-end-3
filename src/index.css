@@ -429,7 +429,7 @@ form .btn {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.8));
   box-shadow: var(--shadow);
 }
-
+/* Muestra el contenido principal del perfil, como la calculadora de IMC o la recomendación de ejercicios. */
 .perfil-content h2 {
   margin-bottom: 0.5rem;
 }

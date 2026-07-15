@@ -5,7 +5,7 @@ Este repositorio contiene una pequeña aplicación frontend con un endpoint de A
 ## Descripción de la implementación
 
 - Archivo principal de la API: `api/recomendacion.js`.
-- Tipo de endpoint: POST (solo se aceptan solicitudes POST).
+- Tipo de endpoint: POST (solo se aceptan solicitudes POST)
 
 ### Flujo de la petición
 

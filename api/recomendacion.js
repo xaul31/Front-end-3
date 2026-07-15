@@ -2,7 +2,7 @@ export default async function handler(req, res) {
   // 1. Solo aceptar POST
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Método no permitido' });
-  } // codigo 405 es el estándar para indicar que el método HTTP usado no está permitido para este endpoint.
+  } // codigo 405 es el estándar para indicar que el método HTTP usado no está permitido para este endpoint
 
   // 2. Extraer los datos que manda el frontend
   const { peso, altura, imc, categoria, objetivo } = req.body;
