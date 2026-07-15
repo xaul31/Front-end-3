@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { DIETAS, RUTINAS } from './CalculadoraIMC.jsx';
 
 // Muestra el panel de perfil y cambia entre sus secciones internas.
 export default function Perfil({ usuario, onLogout, onUpdateUsuario, onEliminarCuenta }) {
@@ -13,26 +12,26 @@ export default function Perfil({ usuario, onLogout, onUpdateUsuario, onEliminarC
     ];
 
     return (
-        <div>
-            <aside>
-                <h5>Hola, {usuario.nombre || usuario.email}</h5>
+        <div className="perfil-layout">
+            <aside className="perfil-sidebar">
+                <h5 className="perfil-hello">Hola, {usuario.nombre || usuario.email}</h5>
 
                 {opciones.map((op) => (
                     <button
                         key={op.id}
-                        className={seccion === op.id ? 'btn btn-primary' : 'btn btn-light'}
+                        className={`perfil-option ${seccion === op.id ? 'btn btn-primary' : 'btn btn-light'}`}
                         onClick={() => setSeccion(op.id)}
                     >
                         {op.label}
                     </button>
                 ))}
 
-                <button className="btn btn-danger" onClick={onLogout}>
+                <button className="btn btn-danger perfil-logout" onClick={onLogout}>
                     Cerrar sesión
                 </button>
             </aside>
 
-            <div>
+            <div className="perfil-content">
                 {seccion === 'perfil' && <VerPerfil usuario={usuario} />}
                 {seccion === 'ejercicios' && <VerEjercicios />}
                 {seccion === 'dieta' && <VerDieta />}
@@ -62,47 +61,28 @@ function VerPerfil({ usuario }) {
 
 // Muestra la rutina de ejercicios correspondiente a la última categoría de IMC.
 function VerEjercicios() {
-  const guardado = localStorage.getItem('ultimoIMC');
- 
-  if (!guardado) {
-    return (
-      <div>
-        <h2>Mis Ejercicios</h2>
-        <p>Aún no has calculado tu IMC. Ve a Home y calcúlalo para ver tu rutina recomendada.</p>
-      </div>
-    );
-  }
- 
-  const { imc, categoria } = JSON.parse(guardado);
-  const rutina = RUTINAS[categoria];
-
-    if (!rutina) {
-        return (
-            <div>
-                <h2>Mis Ejercicios</h2>
-                <p>No hay una rutina disponible para esta categoría de IMC.</p>
-            </div>
-        );
-    }
+    const guardado = localStorage.getItem('recomendacionIA');
+    const recomendacion = guardado ? JSON.parse(guardado) : null;
 
     return (
         <div>
             <h2>Mis Ejercicios</h2>
-            <p><strong>IMC:</strong> {imc.toFixed(1)}</p>
-            <p><strong>Categoría:</strong> {categoria}</p>
-            <p><strong>Objetivo:</strong> {rutina.objetivo}</p>
-            <p><strong>Frecuencia:</strong> {rutina.frecuencia}</p>
-            <p><strong>Duración:</strong> {rutina.duracion}</p>
-
-            <ul>
-                {rutina.ejercicios.map((ejercicio, i) => (
-                    <li key={i}>
-                        <strong>{ejercicio.nombre}:</strong> {ejercicio.series}
-                    </li>
-                ))}
-            </ul>
-
-            <p><strong>Notas:</strong> {rutina.notas}</p>
+            {!recomendacion ? (
+                <p>Aún no tienes ejercicios generados. Ve a la Calculadora de IMC para obtener tu recomendación.</p>
+            ) : (
+                <>
+                    <ul>
+                        {recomendacion.ejercicios.map((ej, i) => (
+                            <li key={i}>
+                                <strong>{ej.nombre}</strong> — {ej.series}
+                                <br />
+                                {ej.descripcion}
+                            </li>
+                        ))}
+                    </ul>
+                    <p><em>{recomendacion.notas}</em></p>
+                </>
+            )}
         </div>
     );
 }
@@ -110,41 +90,36 @@ function VerEjercicios() {
 
 // Muestra la dieta recomendada según la categoría de IMC guardada.
 function VerDieta() {
-    const guardado = localStorage.getItem('ultimoIMC');
-    const categoriaActual = guardado ? JSON.parse(guardado).categoria : null;
-    const dietaActual = categoriaActual ? DIETAS[categoriaActual] : null;
+    const guardado = localStorage.getItem('recomendacionIA');
+    const recomendacion = guardado ? JSON.parse(guardado) : null;
 
     return (
         <div>
             <h2>Mi Dieta</h2>
-            {!dietaActual ? (
-                <p>Aún no tienes una categoría de IMC calculada. Ve a la Calculadora de IMC para obtener tu dieta.</p>
+            {!recomendacion ? (
+                <p>Aún no tienes una dieta generada. Ve a la Calculadora de IMC para obtener tu recomendación.</p>
             ) : (
-                <div>
-                    <h3>Tu recomendación actual: {categoriaActual}</h3>
-                    <p><strong>Calorías:</strong> {dietaActual.calorias}</p>
-
-                    <p><strong>Consejos:</strong></p>
-                    <ul>
-                        {dietaActual.consejos.map((consejo, i) => (
-                            <li key={i}>{consejo}</li>
-                        ))}
-                    </ul>
-
-                    <p><strong>Recomendados:</strong></p>
-                    <ul>
-                        {dietaActual.recomendados.map((alimento, i) => (
-                            <li key={i}>{alimento}</li>
-                        ))}
-                    </ul>
-
-                    <p><strong>Evitar:</strong></p>
-                    <ul>
-                        {dietaActual.evitar.map((alimento, i) => (
-                            <li key={i}>{alimento}</li>
-                        ))}
-                    </ul>
-                </div>
+                <>
+                    <p><strong>Calorías sugeridas:</strong> {recomendacion.dieta.calorias}</p>
+                    <div className="row">
+                        <div className="col-md-6">
+                            <h4>Alimentos recomendados</h4>
+                            <ul>
+                                {recomendacion.dieta.recomendados.map((item, i) => (
+                                    <li key={i}>{item}</li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div className="col-md-6">
+                            <h4>Alimentos a evitar</h4>
+                            <ul>
+                                {recomendacion.dieta.evitar.map((item, i) => (
+                                    <li key={i}>{item}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                </>
             )}
         </div>
     );

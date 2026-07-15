@@ -90,7 +90,7 @@ export default function LoginForm({ onLogin }) {
         </button>
       </form>
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && <p className="form-error">{error}</p>}
 
       <p>
         {modo === 'login' ? '¿No tienes cuenta? ' : '¿Ya tienes cuenta? '}

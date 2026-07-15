@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import CalculadoraIMC from './CalculadoraIMC.jsx';
-import LoginForm from './login.jsx';
-import Perfil from './perfil.jsx';
+import './App.css';
+import CalculadoraIMC from './funciones/CalculadoraIMC.jsx';
+import LoginForm from './usuarios/login.jsx';
+import Perfil from './usuarios/perfil.jsx';
 
 
 export default function App() {
@@ -24,11 +25,22 @@ export default function App() {
     setUsuario(null);
   }
 
+  // Actualiza los datos del usuario en el estado y en localStorage.
+  function manejoActualizarUsuario(usuarioActualizado) {
+    setUsuario(usuarioActualizado);
+    try {
+      localStorage.setItem('usuario', JSON.stringify(usuarioActualizado));
+    } catch (e) {
+      // Silenciar errores de localStorage para entornos donde no esté disponible
+      console.warn('No se pudo guardar usuario en localStorage', e);
+    }
+  }
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <a className="navbar-brand" href="#">
-          <img src="/logo.png" alt="Logo" width="140" height="100" className="d-inline-block align-top" />
+          <img src="/logo.png" alt="Logo" className="app-logo d-inline-block align-top" />
         </a>
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
@@ -46,7 +58,7 @@ export default function App() {
       {vista === 'calculadora' && <CalculadoraIMC />}
       {vista === 'perfil' && (
         usuario
-          ? <Perfil usuario={usuario} onLogout={manejoLogout} onEliminarCuenta={manejoEliminarCuenta} />
+          ? <Perfil usuario={usuario} onLogout={manejoLogout} onUpdateUsuario={manejoActualizarUsuario} onEliminarCuenta={manejoEliminarCuenta} />
           : <LoginForm onLogin={manejoLogin} />
       )}
     </div>

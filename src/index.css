@@ -438,7 +438,7 @@ form .btn {
   margin-top: 0.45rem;
 }
 
-.login-error {
+.form-error {
   margin-top: 0.9rem;
   color: #dc2626;
   font-weight: 700;
