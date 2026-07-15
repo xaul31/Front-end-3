@@ -22,3 +22,21 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.vercel
+
+# Environment files
+.env
+.env.*.local
+
+# Vite / build caches
+.vite
+.cache
+
+# Test coverage
+coverage/
+
+# Misc
+.eslintcache
+npm-debug.log*
+.parcel-cache
+
